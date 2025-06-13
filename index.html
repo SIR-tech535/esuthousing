@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESUT Housing</title>
+    <style>
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Primary Color */
+:root {
+    --royal-blue: #4169E1; /* Royal Blue */
+}
+
+/* Header and Navigation */
+header {
+    background-color: var(--royal-blue);
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.hamburger-menu {
+    font-size: 2em;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: var(--royal-blue);
+    position: absolute;
+    top: 40px;
+    right: 0;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.hamburger-menu:hover .menu-items,
+.hamburger-menu.active .menu-items {
+    display: flex; /* Show on hover or when active */
+}
+
+.menu-items li {
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-items li:last-child {
+    border-bottom: none;
+}
+
+.menu-items a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-items a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #e0eaff; /* Light blue background */
+}
+
+.tagline {
+    font-size: 1.2em;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Booking Form Section */
+.booking-form-section {
+    background-color: white;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.booking-form-section h2 {
+    text-align: center;
+    color: var(--royal-blue);
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group select,
+.form-group input[type="number"],
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: var(--royal-blue);
+    outline: none;
+    box-shadow: 0 0 5px rgba(65, 105, 225, 0.3);
+}
+
+#walk-time, #price-range {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+button#reserve-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--royal-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button#reserve-button:hover {
+    background-color: #3558B1; /* Slightly darker royal blue */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .menu-items {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .hamburger-menu.active .menu-items {
+        display: flex;
+    }
+
+    .booking-form-section {
+        margin: 20px 10px;
+        padding: 20px;
+    }
+
+    .form-group select,
+    .form-group input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ESUT HOUSING</div>
+            <div class="hamburger-menu">
+                &#9776;
+                <ul class="menu-items">
+                    <li><a href="#" id="speak-agent">Speak with an Agent</a></li>
+                    <li><a href="#" id="about-esut-housing">About ESUT Housing</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="tagline">Book to Rent a Lodge within ESUT Off-campus, and Our team reserves a Good Lodge for you at a 10% Agency Fee.</p>
+        </section>
+
+        <section class="booking-form-section">
+            <h2>Reserve Your Lodge</h2>
+            <form id="lodge-booking-form">
+                <div class="form-group">
+                    <label for="faculty">Select Your Faculty:</label>
+                    <select id="faculty" name="faculty" required>
+                        <option value="">-- Choose Faculty --</option>
+                        </select>
+                </div>
+
+                <div class="form-group" id="location-time-info" style="display: none;">
+                    <label for="location">Choose a Housing Location:</label>
+                    <select id="location" name="location" required>
+                        <option value="">-- Choose Location --</option>
+                        </select>
+                    <p id="walk-time"></p>
+                </div>
+
+                <div class="form-group" id="house-type-info" style="display: none;">
+                    <label for="house-type">Select Type of House:</label>
+                    <select id="house-type" name="house-type" required>
+                        <option value="">-- Choose House Type --</option>
+                        </select>
+                    <p id="price-range"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">Your Budget (Naira):</label>
+                    <input type="number" id="budget" name="budget" placeholder="e.g., 200000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="full-name">Full Name:</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone-number">Phone Number:</label>
+                    <input type="tel" id="phone-number" name="phone-number" pattern="[0-9]{11}" placeholder="e.g., 08123456789" required>
+                    <small>Format: 11 digits (e.g., 081XXXXXXXX)</small>
+                </div>
+
+                <button type="submit" id="reserve-button">Reserve a Lodge Via WhatsApp</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const facultiesData = {
+        "Faculty of Agriculture and Natural Resources": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Applied Natural Science": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Education": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Engineering": {
+            "Ozalla environs-Frontgate": "2hrs 10 mins walk",
+            "Ugwu Obe environs-Frontgate": "2hrs walk",
+            "Obe - Methodist environs-Frontgate": "1hr 10 mins walk",
+            "Obe Girls environs-Frontgate": "30 - 50 mins walk",
+            "Obe - Umueze environs-Frontgate": "40-50 mins walk",
+            "Umueze inside school environs": "38 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30 -55 mins walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "20 mins to 30mins walk",
+            "Secretariat environs-Backgate": "1hr walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 40 mins walk"
+        },
+        "Faculty of Environmental Science": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Law": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 58 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Management Science": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-40 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "25-30 mins walk",
+            "Umueze Texaco environs-Frontgate": "30-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 mins -1hr walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Clinical Medicine": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Basic Medicine": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of medicine and surgery": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Allied health science (nursing)": {
+            "Ozalla environs-Frontgate": "2hrs mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "58 mins walk",
+            "Obe Girls environs-Frontgate": "40-50 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "25-30 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-30 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins walk",
+            "Eke Agbani environs-Backgate": "45 mins -1hr walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Pharmacy": {
+            "Ozalla environs-Frontgate": "2hrs mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "58 mins walk",
+            "Obe Girls environs-Frontgate": "40-50 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "25-30 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-30 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins walk",
+            "Eke Agbani environs-Backgate": "45 mins -1hr walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Social science": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-40 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "25-30 mins walk",
+            "Umueze Texaco environs-Frontgate": "30-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 mins -1hr walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Physical Science": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        },
+        "Faculty of Biological Sciences": {
+            "Ozalla environs-Frontgate": "1hr 55 mins walk",
+            "Ugwu Obe environs-Frontgate": "1hr 20 mins walk",
+            "Obe - Methodist environs-Frontgate": "50 mins walk",
+            "Obe Girls environs-Frontgate": "25-30 mins walk",
+            "Obe - Umueze environs-Frontgate": "30-40 mins walk",
+            "Umueze inside school environs": "18-20 mins walk",
+            "Umueze Texaco environs-Frontgate": "20-55 mins walk",
+            "Umueze Agbani environs-Backgate": "30mins -1hr walk",
+            "Eke Agbani environs-Backgate": "45 - 55 mins walk",
+            "Eke Agbani Inside school environs": "25 mins to 44mins walk",
+            "Secretariat environs-Backgate": "2 hrs walk",
+            "Amuri environs-Backgate": "40-50 mins walk",
+            "Amuri inside school environs-Backgate": "25 - 50 mins walk"
+        }
+    };
+
+    const housingPricesData = {
+        "Ozalla environs-Frontgate": {
+            "old self-contained": "80k to 180k",
+            "new self-contained": "180k to 300k",
+            "1 bedroom flat": "250k to 500k",
+            "2 bedroom flat": "250k to 650k",
+            "3 bedroom flat": "450k to 1M"
+        },
+        "Ugwu Obe environs-Frontgate": {
+            "old self-contained": "80k to 180k",
+            "new self-contained": "180k to 300k",
+            "1 bedroom flat": "250k to 500k",
+            "2 bedroom flat": "250k to 650k",
+            "3 bedroom flat": "450k to 1M"
+        },
+        "Obe - Methodist environs-Frontgate": {
+            "old self-contained": "100k to 180k",
+            "new self-contained": "180k to 350k",
+            "1 bedroom flat": "250k to 500k",
+            "2 bedroom flat": "350k to 850k",
+            "3 bedroom flat": "700k to 1M"
+        },
+        "Obe Girls environs-Frontgate": {
+            "old self-contained": "120k to 300k",
+            "new self-contained": "320k to 600k",
+            "1 bedroom flat": "500k to 800k",
+            "2 bedroom flat": "500k to 900k",
+            "3 bedroom flat": "700k to 1M"
+        },
+        "Obe - Umueze environs-Frontgate": {
+            "old self-contained": "150k to 300k",
+            "new self-contained": "320k to 600k",
+            "1 bedroom flat": "500k to 800k",
+            "2 bedroom flat": "500k to 900k",
+            "3 bedroom flat": "700k to 1M"
+        },
+        "Umueze inside school environs": {
+            "old self-contained": "250k to 350k",
+            "new self-contained": "400k to 700k",
+            "1 bedroom flat": "600k to 900k",
+            "2 bedroom flat": "750k to 900k",
+            "3 bedroom flat": "900k to 2M"
+        },
+        "Umueze Texaco environs-Frontgate": {
+            "old self-contained": "150k to 300k",
+            "new self-contained": "350k to 600k",
+            "1 bedroom flat": "500k to 800k",
+            "2 bedroom flat": "500k to 900k",
+            "3 bedroom flat": "700k to 1M"
+        },
+        "Umueze Agbani environs-Backgate": {
+            "old self-contained": "180k to 350k",
+            "new self-contained": "320k to 600k",
+            "1 bedroom flat": "600k to 800k",
+            "2 bedroom flat": "600k to 900k",
+            "3 bedroom flat": "700k to 1.5M"
+        },
+        "Eke Agbani environs-Backgate": {
+            "old self-contained": "200k to 350k",
+            "new self-contained": "350k to 700k",
+            "1 bedroom flat": "700k to 1.5M",
+            "2 bedroom flat": "900k to 2M",
+            "3 bedroom flat": "950k to 2M"
+        },
+        "Eke Agbani Inside school environs": {
+            "old self-contained": "300k to 400k",
+            "new self-contained": "450k to 800k",
+            "1 bedroom flat": "900k to 1.5M",
+            "2 bedroom flat": "1M to 2M",
+            "3 bedroom flat": "1M to 2M"
+        },
+        "Secretariat environs-Backgate": {
+            "old self-contained": "120k to 300k",
+            "new self-contained": "300k to 600k",
+            "1 bedroom flat": "500k to 800k",
+            "2 bedroom flat": "800k to 1M",
+            "3 bedroom flat": "900k to 1M"
+        },
+        "Amuri environs-Backgate": {
+            "old self-contained": "200k to 350k",
+            "new self-contained": "350k to 700k",
+            "1 bedroom flat": "700k to 1.5M",
+            "2 bedroom flat": "900k to 2M",
+            "3 bedroom flat": "950k to 2M"
+        },
+        "Amuri inside school environs-Backgate": {
+            "old self-contained": "300k to 400k",
+            "new self-contained": "450k to 800k",
+            "1 bedroom flat": "900k to 1.5M",
+            "2 bedroom flat": "1M to 2M",
+            "3 bedroom flat": "1M to 2M"
+        }
+    };
+
+    // Get elements
+    const facultySelect = document.getElementById('faculty');
+    const locationSelect = document.getElementById('location');
+    const houseTypeSelect = document.getElementById('house-type');
+    const walkTimeDisplay = document.getElementById('walk-time');
+    const priceRangeDisplay = document.getElementById('price-range');
+    const locationTimeInfo = document.getElementById('location-time-info');
+    const houseTypeInfo = document.getElementById('house-type-info');
+    const lodgeBookingForm = document.getElementById('lodge-booking-form');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const menuItems = document.querySelector('.menu-items');
+
+    // Populate Faculties
+    for (const faculty in facultiesData) {
+        const option = document.createElement('option');
+        option.value = faculty;
+        option.textContent = faculty;
+        facultySelect.appendChild(option);
+    }
+
+    // Event listener for Faculty selection
+    facultySelect.addEventListener('change', () => {
+        const selectedFaculty = facultySelect.value;
+        locationSelect.innerHTML = '<option value="">-- Choose Location --</option>'; // Clear previous options
+        walkTimeDisplay.textContent = ''; // Clear walk time
+
+        if (selectedFaculty) {
+            const locations = facultiesData[selectedFaculty];
+            for (const location in locations) {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                locationSelect.appendChild(option);
+            }
+            locationTimeInfo.style.display = 'block';
+        } else {
+            locationTimeInfo.style.display = 'none';
+            houseTypeInfo.style.display = 'none'; // Hide house type section as well
+        }
+    });
+
+    // Event listener for Location selection
+    locationSelect.addEventListener('change', () => {
+        const selectedFaculty = facultySelect.value;
+        const selectedLocation = locationSelect.value;
+        houseTypeSelect.innerHTML = '<option value="">-- Choose House Type --</option>'; // Clear previous options
+        priceRangeDisplay.textContent = ''; // Clear price range
+
+        if (selectedLocation && selectedFaculty) {
+            walkTimeDisplay.textContent = `Estimated walk time: ${facultiesData[selectedFaculty][selectedLocation]}`;
+
+            const houseTypes = housingPricesData[selectedLocation];
+            for (const type in houseTypes) {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                houseTypeSelect.appendChild(option);
+            }
+            houseTypeInfo.style.display = 'block';
+        } else {
+            walkTimeDisplay.textContent = '';
+            houseTypeInfo.style.display = 'none';
+        }
+    });
+
+    // Event listener for House Type selection
+    houseTypeSelect.addEventListener('change', () => {
+        const selectedLocation = locationSelect.value;
+        const selectedHouseType = houseTypeSelect.value;
+
+        if (selectedHouseType) {
+            priceRangeDisplay.textContent = `Price Range: N${housingPricesData[selectedLocation][selectedHouseType]}`;
+        } else {
+            priceRangeDisplay.textContent = '';
+        }
+    });
+
+    // Form Submission for WhatsApp
+    lodgeBookingForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const faculty = facultySelect.value;
+        const location = locationSelect.value;
+        const houseType = houseTypeSelect.value;
+        const budget = document.getElementById('budget').value;
+        const fullName = document.getElementById('full-name').value;
+        const phoneNumber = document.getElementById('phone-number').value;
+
+        if (!faculty || !location || !houseType || !budget || !fullName || !phoneNumber) {
+            alert('Please fill in all the required fields.');
+            return;
+        }
+
+        const walkTime = facultiesData[faculty][location];
+        const priceRange = housingPricesData[location][houseType];
+
+        const message = `Hello ESUT Housing Team,%0A%0AI would like to reserve a lodge with the following details:%0A%0AFaculty: ${faculty}%0ALocation: ${location} (Estimated walk time: ${walkTime})%0AHouse Type: ${houseType} (Price Range: N${priceRange})%0AMy Budget: N${budget}%0AFull Name: ${fullName}%0APhone Number: ${phoneNumber}%0A%0APlease assist me with the reservation.`;
+
+        const whatsappURL = `https://wa.me/2348134653385?text=${message}`;
+        window.open(whatsappURL, '_blank');
+    });
+
+    // Hamburger menu toggle
+    hamburgerMenu.addEventListener('click', () => {
+        menuItems.classList.toggle('active');
+        hamburgerMenu.classList.toggle('active'); // Add active class to hamburger for styling if needed
+    });
+
+    // Close hamburger menu when clicking outside (optional, but good for UX)
+    document.addEventListener('click', (event) => {
+        if (!hamburgerMenu.contains(event.target) && !menuItems.contains(event.target)) {
+            menuItems.classList.remove('active');
+            hamburgerMenu.classList.remove('active');
+        }
+    });
+});
+</script>
+</body>
+</html>
