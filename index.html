@@ -315,18 +315,19 @@ button#reserve-button:hover {
 <!-- Place this under your booking form -->
 <section class="slideshow-section">
   <div class="slideshow-container">
-    <!-- Slide 1: Image -->
-    <div class="slide fade">
-      <img src="https://od.lk/d/NTRfMjc5NTM4OTJf/ESTCONOMICS.JPG" alt="ESUT Economics" />
-    </div>
-
-    <!-- Slide 2: New Video -->
+      <!-- Slide 2: New Video -->
     <div class="slide fade">
       <video autoplay muted loop>
         <source src="https://od.lk/d/NTRfMzQ4NzUxMzVf/h.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
+    <!-- Slide 1: Image -->
+    <div class="slide fade">
+      <img src="https://od.lk/d/NTRfMjc5NTM4OTJf/ESTCONOMICS.JPG" alt="ESUT Economics" />
+    </div>
+
+    
 
     <!-- Slide 3: Image -->
     <div class="slide fade">
@@ -788,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auto-play slideshow
   let slideIndex = 0;
   const slides = document.querySelectorAll(".slideshow-container .slide");
-  const slideInterval = 40000;  // 40 seconds per slide
+  const slideInterval = 60000;  // 40 seconds per slide
 
   function showSlides() {
     slides.forEach(slide => slide.classList.remove("active"));
