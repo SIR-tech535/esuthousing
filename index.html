@@ -196,6 +196,53 @@ button#reserve-button:hover {
         width: 100%;
     }
 }
+
+        
+ /* Slideshow Container Styling */
+  .slideshow-section {
+    margin: 40px auto;
+    border-radius: 8px;
+  }
+
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 1000px;
+  }
+
+  .slideshow-container img,
+  .slideshow-container video {
+    width: 100%;
+    height: 500px;
+    display: none;
+  }
+
+  .slide {
+    position: absolute;
+    width: 100%;
+    height: 500px;
+  }
+
+  .slide.active img,
+  .slide.active video {
+    display: block;
+  }
+
+  .fade {
+    animation: fadeEffect 1s ease-in-out;
+  }
+
+  @keyframes fadeEffect {
+    from { opacity: 0.4; }
+    to   { opacity: 1; }
+  }
+
+  /* Responsive Behavior */
+  @media (max-width: 768px) {
+    .slideshow-container {
+      height: 250px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -263,6 +310,37 @@ button#reserve-button:hover {
             </form>
         </section>
     </main>
+
+    
+<!-- Place this under your booking form -->
+<section class="slideshow-section">
+  <div class="slideshow-container">
+    <!-- Slide 1: Image -->
+    <div class="slide fade">
+      <img src="https://od.lk/d/NTRfMjc5NTM4OTJf/ESTCONOMICS.JPG" alt="ESUT Economics" />
+    </div>
+
+    <!-- Slide 2: New Video -->
+    <div class="slide fade">
+      <video autoplay muted loop>
+        <source src="https://od.lk/d/NTRfMzQ4NzUxMzVf/h.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Slide 3: Image -->
+    <div class="slide fade">
+      <img src="https://od.lk/d/NTRfMzQ4NzUxMzRf/i-have-a-phone-accessories-business-am-r__2DsrmdgSfaTh7B_izbZ2Q_s-DKZEcOQ0i-OJfe3acnMw.jpeg" 
+           alt="Phone Accessories Business" />
+    </div>
+
+    <!-- Slide 4: Image -->
+    <div class="slide fade">
+      <img src="https://od.lk/d/NTRfMzQ4NzUxMzNf/IMG-20250820-WA0003.jpeg" 
+           alt="Sample Image" />
+    </div>
+  </div>
+</section>
 
     <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -704,6 +782,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script>
+
+    <script>
+  // Auto-play slideshow
+  let slideIndex = 0;
+  const slides = document.querySelectorAll(".slideshow-container .slide");
+  const slideInterval = 40000;  // 40 seconds per slide
+
+  function showSlides() {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[slideIndex].classList.add("active");
+
+    slideIndex = (slideIndex + 1) % slides.length;
+    setTimeout(showSlides, slideInterval);
+  }
+
+  if (slides.length > 0) {
+    showSlides();
+  }
 </script>
 </body>
 </html>
