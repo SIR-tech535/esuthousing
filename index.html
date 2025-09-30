@@ -243,6 +243,42 @@ button#reserve-button:hover {
       height: 250px;
     }
   }
+
+        .link-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* makes them wrap on small screens */
+}
+
+.btn-link {
+  background: var(--royal-blue);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 160px;
+}
+
+.btn-link:hover {
+  background: #3558B1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 600px) {
+  .btn-link {
+    flex: 1 1 100%;
+    min-width: unset;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -265,6 +301,12 @@ button#reserve-button:hover {
         </section>
 
         <section class="booking-form-section">
+            <div class="link-buttons">
+  <a href="https://esuttransport.vercel.app/" target="_blank" class="btn-link">ESUT Transport</a>
+  <a href="https://esuthousing.vercel.app/" target="_blank" class="btn-link">ESUT Housing</a>
+</div>
+
+
             <h2>Reserve Your Lodge</h2>
             <form id="lodge-booking-form">
                 <div class="form-group">
