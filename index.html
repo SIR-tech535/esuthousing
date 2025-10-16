@@ -350,7 +350,7 @@ button#reserve-button:hover {
 
                  <div class="form-group">
                     <label for="enviro">Describe kind of Enviroment you want:</label>
-                    <textarea id="enviro" rows="5" cols="20" name="enviro" required>  </textarea>
+                    <textarea id="enviro" rows="5" cols="40" name="enviro" required>  </textarea>
                 </div>
                 
                 <button type="submit" id="reserve-button">Reserve a Lodge Via WhatsApp</button>
@@ -725,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const locationTimeInfo = document.getElementById('location-time-info');
     const houseTypeInfo = document.getElementById('house-type-info');
     const lodgeBookingForm = document.getElementById('lodge-booking-form');
+    const enviro = document.getElementById('enviro');
     const hamburgerMenu = document.querySelector('.hamburger-menu');
     const menuItems = document.querySelector('.menu-items');
 
@@ -803,8 +804,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const budget = document.getElementById('budget').value;
         const fullName = document.getElementById('full-name').value;
         const phoneNumber = document.getElementById('phone-number').value;
+        const enviro = document.getElementById('enviro').value;
 
-        if (!faculty || !location || !houseType || !budget || !fullName || !phoneNumber) {
+        if (!faculty || !location || !houseType || !budget || !fullName || !phoneNumber|| !enviro) {
             alert('Please fill in all the required fields.');
             return;
         }
@@ -812,7 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const walkTime = facultiesData[faculty][location];
         const priceRange = housingPricesData[location][houseType];
 
-        const message = `Hello ESUT Housing Team,%0A%0AI would like to reserve a lodge with the following details:%0A%0AFaculty: ${faculty}%0ALocation: ${location} (Estimated walk time: ${walkTime})%0AHouse Type: ${houseType} (Price Range: N${priceRange})%0AMy Budget: N${budget}%0AFull Name: ${fullName}%0APhone Number: ${phoneNumber}%0A%0APlease assist me with the reservation.`;
+        const message = `Hello ESUT Housing Team,%0A%0AI would like to reserve a lodge with the following details:%0A%0AFaculty: ${faculty}%0ALocation: ${location} (Estimated walk time: ${walkTime})%0AHouse Type: ${houseType} (Price Range: N${priceRange})%0AMy Budget: N${budget}%0AFull Name: ${fullName}%0APhone Number: ${phoneNumber}%0AEnvironment: ${enviro}%0A%0APlease assist me with the reservation.`;
 
         const whatsappURL = `https://wa.me/2348134653385?text=${message}`;
         window.open(whatsappURL, '_blank');
